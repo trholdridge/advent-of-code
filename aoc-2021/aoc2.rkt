@@ -4,6 +4,10 @@
 (require 2htdp/batch-io)
 (require racket/string)
 
+; Input
+
+(define INPUT (read-lines "input2.txt"))
+
 ; --------------- PART 1 ---------------
 
 ; A Direction is one of
@@ -115,7 +119,6 @@
 
 ; Final steps
 
-(define INPUT (read-lines "input2.txt"))
 (define COMMANDS (map string->command INPUT))
 
 ; execute-commands : Sub [List-of [Sub -> Sub]] -> Sub

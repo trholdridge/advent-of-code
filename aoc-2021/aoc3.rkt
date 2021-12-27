@@ -4,12 +4,16 @@
 (require 2htdp/batch-io)
 (require racket/string)
 
+; Input
+
 (define RAW-INPUT (read-lines "input3.txt"))
 
 (define (process-input los)
   (map (λ (s) (filter number? (map string->number (string-split s "")))) los))
 
 (define INPUT (process-input RAW-INPUT))
+
+; --------------- PART 1 ---------------
 
 ; gamma : [List-of [List-of Nat]] -> [List-of Num]
 (check-expect (gamma (list (list 1 0 0 0 0)
@@ -40,7 +44,7 @@
                      (λ (n) (* (expt 2 (- (length lon) (+ n 1)))
                                (list-ref lon n))))))
 
-; -------------------------------------------------------
+; --------------- PART 2 ---------------
 
 ; most-common-bit : Nat [List-of [List-of Nat]] -> Nat
 ; only returns 0 or 1

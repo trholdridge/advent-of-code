@@ -4,10 +4,12 @@
 (require 2htdp/batch-io)
 (require racket/string)
 
-;; ----- Day 1 -----
+; Input
 
-;(define RAW-INPUT (read-lines "input.txt"))
-;(define INPUT (map string->number RAW-INPUT))
+(define RAW-INPUT (read-lines "input.txt"))
+(define INPUT (map string->number RAW-INPUT))
+
+; --------------- PART 1 ---------------
 
 ; number-of-increases : [NEList-of Nat] -> Nat
 ; returns number of measurements larger than the previous measurement
@@ -21,6 +23,8 @@
                                1
                                0)
                            (number-of-increases (rest lon)))]))
+
+; --------------- PART 2 ---------------
 
 ;; number-of-increases/v2 : [NEList-of Nat] -> Nat
 ; returns # of sliding measurements larger than previous sliding measurement
