@@ -84,3 +84,35 @@
                (list-ref DRAWS (- (length DRAWS) (length (world-draws w)) 1))))]
     (overlay (text (number->string (score w)) 24 "black")
              (empty-scene 200 200))))
+
+; --------------- PART 2 ---------------
+; this is terrible but I just print the board and remaining draws
+; when there's only one board left and then calculate by hand
+
+; play-until-last : _ -> World
+(define (play-until-last _)
+  (big-bang (make-world DRAWS INPUT)
+    [to-draw (λ (w) (empty-scene 500 500))]
+    [on-tick draw-next]
+    [stop-when is-last-board? draw-last-board]))
+
+; is-last-board? : World -> Boolean
+(define (is-last-board? w)
+  (= 1 (length (filter (λ (b) (not (winning-board? b)))
+                                      (world-boards w)))))
+
+; draw-last-board : World -> Image
+(define (draw-last-board w)
+  (local [(define LAST (first (filter (λ (b) (not (winning-board? b)))
+                                      (world-boards w))))
+          (define (draw-lon lon)
+            (foldr (λ (n img)
+                     (beside (text (string-append (number->string n) " ")
+                                   24 "black")
+                             img))
+                   empty-image lon))]
+    (above (draw-lon (world-draws w))
+           (foldr (λ (lon img) (above (draw-lon lon) img))
+                  empty-image (bingo-row-wise LAST))
+           (foldr (λ (lon img) (above (draw-lon lon) img))
+                  empty-image (bingo-col-wise LAST)))))
