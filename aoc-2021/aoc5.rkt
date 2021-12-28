@@ -59,7 +59,7 @@
 (check-expect (num-dangerous (list '())) 0)
 (check-expect (num-dangerous (list '(1 2 1) '(0 0 3))) 2)
 (define (num-dangerous lolon)
-  (length (filter (λ (n) (> 1 n))
+  (length (filter (λ (n) (> n 1))
                   (flatten lolon))))
 
 ; line-counts : Nat Nat [List-of Line] -> [List-of [List-of Nat]]
@@ -116,4 +116,55 @@
        (or (<= (posn-y start) (posn-y mid) (posn-y end))
            (<= (posn-y end) (posn-y mid) (posn-y start)))))
 
+; --------------- PART 1 ---------------
 
+; solve/v2
+(define (solve/v2 _)
+  (num-dangerous (line-counts/v2 WIDTH HEIGHT INPUT)))
+
+; line-counts/v2 : Nat Nat [List-of Line] -> [List-of [List-of Nat]]
+; finds the number of lines going through every point in a grid of
+; the given width and height
+; cuts off at 2 for efficiency
+(check-expect (line-counts/v2 2 3 (list (make-line POSN1 POSN2)))
+              (list '(1 0) '(1 0) '(1 0)))
+(check-expect (line-counts/v2 5 5 (list (make-line POSN1 POSN2)
+                                        (make-line POSN2 POSN3)
+                                        (make-line POSN2 (make-posn 2 1))))
+              (list '(1 0 0 0 0)
+                    '(1 0 1 0 0)
+                    '(1 1 0 0 0)
+                    '(2 1 1 0 0)
+                    '(0 0 0 0 0)))
+(define (line-counts/v2 width height lol)
+  (local [; in-lines : Posn [List-of Line] -> Nat
+          ; finds the number of lines going through one point
+          (define (in-lines p lines)
+            (foldr (λ (line so-far) (if (> so-far 1)
+                                        so-far
+                                        (+ (in-line?/v2 p line) so-far)))
+                   0 lines))]
+    (build-list height
+                (λ (y) (build-list width
+                                   (λ (x) (in-lines (make-posn x y) lol)))))))
+
+; in-line?/v2 : Posn Line -> Nat
+; is the point in the given line? (assumes horizontal, vertical, or diagonal lines)
+(define (in-line?/v2 p l)
+  (if (or (horizontal-line? (line-start l) (line-end l) p)
+          (vertical-line? (line-start l) (line-end l) p)
+          (diagonal-line? (line-start l) (line-end l) p))
+      1
+      0))
+
+; diagonal-line? : Posn Posn Posn -> Boolean
+; does the third point come between the first two diagonally?
+(define (diagonal-line? start end mid)
+  (and (= (abs (- (posn-x start) (posn-x end)))
+          (abs (- (posn-y start) (posn-y end))))
+       (= (abs (- (posn-x start) (posn-x mid)))
+          (abs (- (posn-y start) (posn-y mid))))
+       (or (<= (posn-y start) (posn-y mid) (posn-y end))
+           (<= (posn-y end) (posn-y mid) (posn-y start)))
+       (or (<= (posn-x start) (posn-x mid) (posn-x end))
+           (<= (posn-x end) (posn-x mid) (posn-x start)))))
