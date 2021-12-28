@@ -3,6 +3,7 @@
 #reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname aoc5) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 (require 2htdp/batch-io)
 (require racket/string)
+(require racket/list)
 
 ; Input
 
@@ -44,35 +45,52 @@
 
 (define RAW-INPUT (read-lines "input5.txt"))
 (define INPUT (process-input RAW-INPUT))
-(define WIDTH (max-posn posn-x INPUT))
-(define HEIGHT (max-posn posn-y INPUT))
+(define WIDTH (+ 1 (max-posn posn-x INPUT)))
+(define HEIGHT (+ 1 (max-posn posn-y INPUT)))
 
 ; --------------- PART 1 ---------------
 
+; solve
+(define (solve _)
+  (num-dangerous (line-counts WIDTH HEIGHT INPUT)))
+
 ; num-dangerous : [List-of [List-of Nat]] -> Nat
 ; counts how many positions are at the intersection of multiple lines
-(define (num-dangerous _)
-  (foldr (λ (lon so-far) (+ so-far (foldr (λ (n) (if (> n 1) 1 0)) 0 lon)))
-         0 (line-counts WIDTH HEIGHT INPUT)))
+(check-expect (num-dangerous (list '())) 0)
+(check-expect (num-dangerous (list '(1 2 1) '(0 0 3))) 2)
+(define (num-dangerous lolon)
+  (length (filter (λ (n) (> 1 n))
+                  (flatten lolon))))
 
 ; line-counts : Nat Nat [List-of Line] -> [List-of [List-of Nat]]
 ; finds the number of lines going through every point in a grid of
 ; the given width and height
+(check-expect (line-counts 2 3 (list (make-line POSN1 POSN2)))
+              (list '(1 0) '(1 0) '(1 0)))
+(check-expect (line-counts 5 5 (list (make-line POSN1 POSN2)
+                                     (make-line POSN2 POSN3)))
+              (list '(1 0 0 0 0)
+                    '(1 0 0 0 0)
+                    '(1 0 0 0 0)
+                    '(2 1 1 0 0)
+                    '(0 0 0 0 0)))
 (define (line-counts width height lol)
   (local [; in-lines : Posn [List-of Line] -> Nat
           ; finds the number of lines going through one point
           (define (in-lines p lines)
             (length (filter (λ (line) (in-line? p line)) lines)))]
-    (build-list width
-                (λ (x) (build-list height
-                                   (λ (y) (in-lines (make-posn x y) lol)))))))
+    (build-list height
+                (λ (y) (build-list width
+                                   (λ (x) (in-lines (make-posn x y) lol)))))))
 
 ; in-line? : Posn Line -> Boolean
 ; is the point in the given line? (assumes horizontal or vertical lines)
 (check-expect (in-line? (make-posn 0 0) LINE1) #t)
 (check-expect (in-line? (make-posn 8 1) LINE3) #t)
+(check-expect (in-line? (make-posn 9 1) LINE3) #t)
 (check-expect (in-line? (make-posn 7 2) LINE2) #f)
 (check-expect (in-line? (make-posn 0 4) LINE1) #f)
+(check-expect (in-line? (make-posn 6 1) LINE3) #f)
 (define (in-line? p l)
   (or (horizontal-line? (line-start l) (line-end l) p)
       (vertical-line? (line-start l) (line-end l) p)))
