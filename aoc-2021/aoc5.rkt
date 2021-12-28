@@ -4,6 +4,7 @@
 (require 2htdp/batch-io)
 (require racket/string)
 
+; Input
 
 (define POSN1 (make-posn 0 0))
 (define POSN2 (make-posn 0 3))
@@ -22,11 +23,37 @@
   (... (line-start l)
        (line-end l)))
 
+(define (process-input los)
+  (map process-line los))
+
+(define (process-line s)
+  (local [(define SPLIT (string-split s " "))]
+    (make-line (process-posn (first SPLIT))
+               (process-posn (second SPLIT)))))
+
+(define (process-posn s)
+  (local [(define SPLIT (string-split s ","))]
+    (make-posn (string->number (first SPLIT))
+               (string->number (second SPLIT)))))
+
+(define (max-posn access lol)
+  (foldr (λ (line max-so-far) (max (access (line-start line))
+                                   (access (line-end line))
+                                   max-so-far))
+         0 lol))
+
+(define RAW-INPUT (read-lines "input5.txt"))
+(define INPUT (process-input RAW-INPUT))
+(define WIDTH (max-posn posn-x INPUT))
+(define HEIGHT (max-posn posn-y INPUT))
+
+; --------------- PART 1 ---------------
+
 ; num-dangerous : [List-of [List-of Nat]] -> Nat
 ; counts how many positions are at the intersection of multiple lines
-(define (num-dangerous lolon)
+(define (num-dangerous _)
   (foldr (λ (lon so-far) (+ so-far (foldr (λ (n) (if (> n 1) 1 0)) 0 lon)))
-         0 lolon))
+         0 (line-counts WIDTH HEIGHT INPUT)))
 
 ; line-counts : Nat Nat [List-of Line] -> [List-of [List-of Nat]]
 ; finds the number of lines going through every point in a grid of
@@ -35,8 +62,7 @@
   (local [; in-lines : Posn [List-of Line] -> Nat
           ; finds the number of lines going through one point
           (define (in-lines p lines)
-            (foldr (λ (line so-far) (+ so-far (if (in-line? p line) 1 0)))
-                   0 lines))]
+            (length (filter (λ (line) (in-line? p line)) lines)))]
     (build-list width
                 (λ (x) (build-list height
                                    (λ (y) (in-lines (make-posn x y) lol)))))))
@@ -73,29 +99,3 @@
            (<= (posn-y end) (posn-y mid) (posn-y start)))))
 
 
-; -------------------------------------------------------------
-
-(define RAW-INPUT (read-lines "input5.txt"))
-
-(define (process-input los)
-  (map process-line los))
-
-(define (process-line s)
-  (local [(define SPLIT (string-split s " "))]
-    (make-line (process-posn (first SPLIT))
-               (process-posn (second SPLIT)))))
-
-(define (process-posn s)
-  (local [(define SPLIT (string-split s ","))]
-    (make-posn (string->number (first SPLIT))
-               (string->number (second SPLIT)))))
-
-(define (max-posn access lol)
-  (foldr (λ (line max-so-far) (max (access (line-start line))
-                                   (access (line-end line))
-                                   max-so-far))
-         0 lol))
-
-(define INPUT (process-input RAW-INPUT))
-(define WIDTH (max-posn posn-x INPUT))
-(define HEIGHT (max-posn posn-y INPUT))
