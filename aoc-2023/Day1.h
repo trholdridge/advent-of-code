@@ -14,4 +14,3 @@ public:
     int p1(std::vector<std::string> input);
     int p2(std::vector<std::string> input);
 };
-

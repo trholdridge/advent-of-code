@@ -18,6 +18,12 @@
     <Text Include="input1.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="input3.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -26,12 +32,18 @@
     <ClInclude Include="Day1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Day3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Day1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Day3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
