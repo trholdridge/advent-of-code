@@ -22,7 +22,71 @@ int Day5::p1(const std::vector<std::string>& input)
 
 int Day5::p2(const std::vector<std::string>& input)
 {
-    return 0;
+    this->seeds = splitNums(input[0].substr(7), ' ');
+    std::vector<Range> srcs;
+    for (int i = 0; i < this->seeds.size(); i += 2)
+    {
+        srcs.push_back(std::make_pair(this->seeds[i], this->seeds[i + 1]));
+    }
+    buildMaps(input);
+
+    for (const AlmanacMap& m : this->maps)
+    {
+        srcs = destsOf(srcs, m);
+    }
+    return (*std::min_element(srcs.begin(), srcs.end(),
+        [](const Range& a, const Range& b)
+        {
+            return a.first < b.first;
+        })).first;
+}
+
+std::vector<Range> Day5::destsOf(const std::vector<Range>& srcs, const AlmanacMap& m)
+{
+    std::vector<Range> results;
+    std::vector<Range> temp;
+    for (Range s : srcs)
+    {
+        temp = destsOf(s, m);
+        results.insert(results.end(), temp.begin(), temp.end());
+    }
+    return results;
+}
+
+std::vector<Range> Day5::destsOf(Range& src, const AlmanacMap& m)
+{
+    // Range will become fragmented over time, all pieces must be processed
+    std::vector<Range> queue({ src });
+
+    std::vector<Range> dests;
+    for (Range r : queue)
+    {
+        llong srcStart = r.first;
+        llong srcEnd = r.first + r.second;
+        for (const auto& [key, dest] : m)
+        {
+            if ((key.first >= srcStart && key.first < srcEnd)
+                || (key.first + key.second > srcStart && key.first + key.second <= srcEnd)
+                || (srcStart >= key.first && srcStart < key.first + key.second)
+                || (srcEnd > key.first && srcEnd <= key.first + key.second))
+            {
+                if (key.first > srcStart)
+                {
+                    queue.push_back(std::make_pair(srcStart, key.first - srcStart));
+                }
+                if (key.first + key.second < srcEnd)
+                {
+                    queue.push_back(std::make_pair(key.first + key.second, srcEnd - (key.first + key.second)));
+                }
+                llong overlapStart = std::max(srcStart, key.first);
+                llong overlapRange = std::min(srcEnd, key.first + key.second) - overlapStart;
+                dests.push_back(std::make_pair(dest + (overlapStart - key.first), overlapRange));
+                break;
+            }
+        }
+        dests.push_back(r);
+    }
+    return dests;
 }
 
 void Day5::buildMaps(const std::vector<std::string>& input)

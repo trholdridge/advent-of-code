@@ -10,7 +10,7 @@
 int main()
 {
     std::vector<std::string> lines = {};
-    std::ifstream infile("input5.txt");
+    std::ifstream infile("test.txt");
 
     for (std::string line; std::getline(infile, line); )
     {
@@ -18,6 +18,6 @@ int main()
     }
 
     Day5 d = Day5();
-    std::cout << d.p1(lines) << "\n";
+    std::cout << d.p2(lines) << "\n";
     return 0;
 }

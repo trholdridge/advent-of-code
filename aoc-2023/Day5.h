@@ -5,7 +5,8 @@
 #include <map>
 #include <utility>
 
-typedef std::map<std::pair<llong, llong>, llong> AlmanacMap;
+typedef std::pair<llong, llong> Range;
+typedef std::map<Range, llong> AlmanacMap;
 
 class Day5 :
     public Day
@@ -13,6 +14,8 @@ class Day5 :
 private:
     std::vector<llong> seeds{};
     std::vector<AlmanacMap> maps{};
+    std::vector<Range> destsOf(const std::vector<Range>& dests, const AlmanacMap& m);
+    std::vector<Range> destsOf(Range& dest, const AlmanacMap& m);
     void buildMaps(const std::vector<std::string>& input);
     llong almanac(const AlmanacMap& m, const llong i);
 public:
