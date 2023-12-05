@@ -131,18 +131,23 @@
     <Text Include="input1.txt" />
     <Text Include="input3.txt" />
     <Text Include="input4.txt" />
+    <Text Include="input5.txt" />
     <Text Include="test.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Day.h" />
     <ClInclude Include="Day1.h" />
     <ClInclude Include="Day3.h" />
     <ClInclude Include="Day4.h" />
+    <ClInclude Include="Day5.h" />
     <ClInclude Include="Main.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Day.cpp" />
     <ClCompile Include="Day1.cpp" />
     <ClCompile Include="Day3.cpp" />
     <ClCompile Include="Day4.cpp" />
+    <ClCompile Include="Day5.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
