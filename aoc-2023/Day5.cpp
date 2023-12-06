@@ -5,7 +5,7 @@
 
 int Day5::p1(const std::vector<std::string>& input)
 {
-    this->seeds = splitNums(input[0].substr(7), ' ');
+    this->seeds = splitLongs(input[0].substr(7), ' ');
     buildMaps(input);
     std::vector<llong> results(this->seeds);
 
@@ -22,7 +22,7 @@ int Day5::p1(const std::vector<std::string>& input)
 
 int Day5::p2(const std::vector<std::string>& input)
 {
-    this->seeds = splitNums(input[0].substr(7), ' ');
+    this->seeds = splitLongs(input[0].substr(7), ' ');
     std::vector<Range> srcs;
     for (int i = 0; i < this->seeds.size(); i += 2)
     {
@@ -101,7 +101,7 @@ void Day5::buildMaps(const std::vector<std::string>& input)
             }
             else if (digit(s[0]))
             {
-                std::vector<llong> nums = splitNums(s, ' ');
+                std::vector<llong> nums = splitLongs(s, ' ');
                 this->maps[map_idx][std::make_pair(nums[1], nums[2])] = nums[0];
             }
             else

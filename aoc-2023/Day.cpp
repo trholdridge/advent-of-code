@@ -24,13 +24,27 @@ std::vector<std::string> Day::split(const std::string& s, const std::string& del
     return std::vector<std::string>();
 }
 
-std::vector<llong> Day::splitNums(const std::string& s, const char delim)
+std::vector<llong> Day::splitLongs(const std::string& s, const char delim)
 {
     std::vector<llong> nums;
     std::vector<std::string> tokens = split(s, delim);
     for (std::string token : tokens)
     {
         nums.push_back(std::stoll(token));
+    }
+    return nums;
+}
+
+std::vector<int> Day::splitInts(const std::string& s, const char delim)
+{
+    std::vector<int> nums;
+    std::vector<std::string> tokens = split(s, delim);
+    for (std::string token : tokens)
+    {
+        if (!token.empty())
+        {
+            nums.push_back(std::stoi(token));
+        }
     }
     return nums;
 }
