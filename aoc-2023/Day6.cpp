@@ -1,9 +1,12 @@
 #include "Day6.h"
 
+#include <algorithm>
+#include <iterator>
+
 int Day6::p1(const std::vector<std::string>& input)
 {
-    this->times = splitInts(input[0].substr(5), ' ');
-    this->distances = splitInts(input[1].substr(9), ' ');
+    std::vector<int> times = splitInts(input[0].substr(5), ' ');
+    std::vector<int> distances = splitInts(input[1].substr(9), ' ');
 
     int product = 1;
     for (int i = 0; i < times.size(); i++)
@@ -13,10 +16,19 @@ int Day6::p1(const std::vector<std::string>& input)
 
 int Day6::p2(const std::vector<std::string>& input)
 {
-    return 0;
+    std::string timeStr;
+    std::string distanceStr;
+    std::copy_if(input[0].begin(), input[0].end(), std::back_inserter(timeStr),
+        [](const char c) { return digit(c); });
+    std::copy_if(input[1].begin(), input[1].end(), std::back_inserter(distanceStr),
+        [](const char c) { return digit(c); });
+    llong time = std::stoll(timeStr);
+    llong distance = std::stoll(distanceStr);
+
+    return waysToBeat(time, distance);
 }
 
-int Day6::waysToBeat(int time, int distance)
+llong Day6::waysToBeat(llong time, llong distance)
 {
     int minPress;
     int maxPress;
