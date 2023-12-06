@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <queue>
 
 int Day5::p1(const std::vector<std::string>& input)
 {
@@ -34,6 +35,7 @@ int Day5::p2(const std::vector<std::string>& input)
     {
         srcs = destsOf(srcs, m);
     }
+
     return (*std::min_element(srcs.begin(), srcs.end(),
         [](const Range& a, const Range& b)
         {
@@ -56,35 +58,39 @@ std::vector<Range> Day5::destsOf(const std::vector<Range>& srcs, const AlmanacMa
 std::vector<Range> Day5::destsOf(Range& src, const AlmanacMap& m)
 {
     // Range will become fragmented over time, all pieces must be processed
-    std::vector<Range> queue({ src });
+    std::queue<Range> queue({ src });
 
     std::vector<Range> dests;
-    for (Range r : queue)
+    while (!queue.empty())
     {
+        Range r = queue.front();
+        queue.pop();
+        bool foundOverlap = false;
         llong srcStart = r.first;
         llong srcEnd = r.first + r.second;
         for (const auto& [key, dest] : m)
         {
-            if ((key.first >= srcStart && key.first < srcEnd)
-                || (key.first + key.second > srcStart && key.first + key.second <= srcEnd)
-                || (srcStart >= key.first && srcStart < key.first + key.second)
-                || (srcEnd > key.first && srcEnd <= key.first + key.second))
+            llong mapStart = key.first;
+            llong mapEnd = key.first + key.second;
+            if (!(srcEnd <= mapStart || srcStart >= mapEnd))
             {
-                if (key.first > srcStart)
+                if (mapStart > srcStart)
                 {
-                    queue.push_back(std::make_pair(srcStart, key.first - srcStart));
+                    queue.push(std::make_pair(srcStart, mapStart - srcStart));
                 }
-                if (key.first + key.second < srcEnd)
+                if (mapEnd < srcEnd)
                 {
-                    queue.push_back(std::make_pair(key.first + key.second, srcEnd - (key.first + key.second)));
+                    queue.push(std::make_pair(mapEnd, srcEnd - mapEnd));
                 }
-                llong overlapStart = std::max(srcStart, key.first);
-                llong overlapRange = std::min(srcEnd, key.first + key.second) - overlapStart;
-                dests.push_back(std::make_pair(dest + (overlapStart - key.first), overlapRange));
-                break;
+                dests.push_back(std::make_pair(dest + (std::max(srcStart, mapStart) - mapStart),
+                    std::min(srcEnd, mapEnd) - std::max(srcStart, mapStart)));
+                foundOverlap = true;
             }
         }
-        dests.push_back(r);
+        if (!foundOverlap)
+        {
+            dests.push_back(r);
+        }
     }
     return dests;
 }
