@@ -1,8 +1,9 @@
 #include "Day7.h"
 
 #include <algorithm>
+#include <functional>
 
-const std::map<char, int> Day7::cardMap = { {'T', 10}, {'J', 11}, {'Q', 12}, {'K', 13}, {'A', 14} };
+const std::map<char, int> Day7::cardMap = { {'T', 10}, {'J', 1}, {'Q', 12}, {'K', 13}, {'A', 14} };
 
 int Day7::p1(const std::vector<std::string>& input)
 {
@@ -26,13 +27,28 @@ int Day7::p1(const std::vector<std::string>& input)
 
 int Day7::p2(const std::vector<std::string>& input)
 {
-    return 0;
+    std::vector<Hand> hands;
+    for (std::string s : input)
+    {
+        std::vector<std::string> temp = split(s, ' ');
+        hands.push_back(std::make_pair(temp[0], std::stoi(temp[1])));
+    }
+
+    std::sort(hands.begin(), hands.end(), compareHands);
+
+    int sum = 0;
+    for (int i = 0; i < hands.size(); i++)
+    {
+        sum += (i + 1) * hands[i].second;
+    }
+
+    return sum;
 }
 
 bool Day7::compareHands(const Hand& h1, const Hand& h2)
 {
-    HandType type1 = handType(h1);
-    HandType type2 = handType(h2);
+    HandType type1 = handType2(h1);
+    HandType type2 = handType2(h2);
 
     if (type1 == type2)
     {
@@ -46,7 +62,7 @@ bool Day7::compareHands(const Hand& h1, const Hand& h2)
 
 Day7::HandType Day7::handType(const Hand& h)
 {
-    std::map<char, int> count;
+    std::map<char, int> count = {};
     int maxCount = 0;
     for (char c : h.first)
     {
@@ -80,6 +96,63 @@ Day7::HandType Day7::handType(const Hand& h)
         }
     case 2:
         if (maxCount == 4)
+        {
+            return HandType::FOUR;
+        }
+        else
+        {
+            return HandType::FULL;
+        }
+    case 1:
+    case 0:
+        return HandType::FIVE;
+    }
+}
+
+Day7::HandType Day7::handType2(const Hand& h)
+{
+    std::map<char, int> count;
+    int jokerCount = 0;
+    char mode = h.first[0];
+    for (char c : h.first)
+    {
+        if (c == 'J')
+        {
+            jokerCount += 1;
+            continue;
+        }
+
+        if (count.find(c) == count.end())
+        {
+            count[c] = 1;
+        }
+        else {
+            count[c] = count[c] + 1;
+        }
+        if (mode == 'J' || count[c] > count[mode])
+        {
+            mode = c;
+        }
+    }
+    count[mode] = count[mode] + jokerCount;
+
+    switch (count.size())
+    {
+    case 5:
+        return HandType::HIGH;
+    case 4:
+        return HandType::ONEPAIR;
+    case 3:
+        if (count[mode] == 3)
+        {
+            return HandType::THREE;
+        }
+        else
+        {
+            return HandType::TWOPAIR;
+        }
+    case 2:
+        if (count[mode] == 4)
         {
             return HandType::FOUR;
         }

@@ -22,6 +22,7 @@ private:
     static const std::map<char, int> cardMap;
 
     static HandType handType(const Hand& h);
+    static HandType handType2(const Hand& h);
     static bool compareHands(const Hand& h1, const Hand& h2);
     static bool compareCards (const std::string& s1, const std::string& s2);
     static int cardValue(const char c);
