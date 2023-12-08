@@ -18,6 +18,6 @@ int main()
     }
 
     Day8 d = Day8();
-    std::cout << d.p1(lines) << "\n";
+    std::cout << d.p2(lines) << "\n";
     return 0;
 }
