@@ -4,7 +4,7 @@
 #include <iostream>
 #include <queue>
 
-int Day5::p1(const std::vector<std::string>& input)
+llong Day5::p1(const std::vector<std::string>& input)
 {
     this->seeds = splitLongs(input[0].substr(7), ' ');
     buildMaps(input);
@@ -21,7 +21,7 @@ int Day5::p1(const std::vector<std::string>& input)
     return *std::min_element(results.begin(), results.end());
 }
 
-int Day5::p2(const std::vector<std::string>& input)
+llong Day5::p2(const std::vector<std::string>& input)
 {
     this->seeds = splitLongs(input[0].substr(7), ' ');
     std::vector<Range> srcs;

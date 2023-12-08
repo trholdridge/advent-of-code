@@ -27,6 +27,6 @@ private:
     static bool compareCards (const std::string& s1, const std::string& s2);
     static int cardValue(const char c);
 public:
-    int p1(const std::vector<std::string>& input) override;
-    int p2(const std::vector<std::string>& input) override;
+    llong p1(const std::vector<std::string>& input) override;
+    llong p2(const std::vector<std::string>& input) override;
 };

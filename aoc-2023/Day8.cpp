@@ -4,13 +4,13 @@
 #include <iostream>
 #include <numeric>
 
-int Day8::p1(const std::vector<std::string>& input)
+llong Day8::p1(const std::vector<std::string>& input)
 {
     process(input);
     return stepsFrom("AAA", [](const std::string& s) { return s == "ZZZ"; });
 }
 
-int Day8::p2(const std::vector<std::string>& input)
+llong Day8::p2(const std::vector<std::string>& input)
 {
     process(input);
     std::vector<std::string> nodes;

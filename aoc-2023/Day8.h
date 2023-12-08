@@ -13,7 +13,7 @@ private:
     void process(const std::vector<std::string>& input);
     llong stepsFrom(std::string node, std::function<bool(const std::string&)> match);
 public:
-    int p1(const std::vector<std::string>& input);
-    int p2(const std::vector<std::string>& input);
+    llong p1(const std::vector<std::string>& input) override;
+    llong p2(const std::vector<std::string>& input) override;
 };
 

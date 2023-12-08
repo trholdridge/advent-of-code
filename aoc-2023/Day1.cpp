@@ -4,7 +4,7 @@
 #include <iterator>
 #include <numeric>
 
-int Day1::p1(std::vector<std::string> input)
+llong Day1::p1(const std::vector<std::string>& input)
 {
     std::vector<int> calibrations = {};
     for (std::string s : input)
@@ -17,7 +17,7 @@ int Day1::p1(std::vector<std::string> input)
     return std::reduce(calibrations.begin(), calibrations.end());
 }
 
-int Day1::p2(std::vector<std::string> input)
+llong Day1::p2(const std::vector<std::string>& input)
 {
     std::vector<int> calibrations = {};
     for (std::string s : input)

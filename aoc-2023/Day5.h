@@ -19,6 +19,6 @@ private:
     void buildMaps(const std::vector<std::string>& input);
     llong almanac(const AlmanacMap& m, const llong i);
 public:
-    int p1(const std::vector<std::string>& input) override;
-    int p2(const std::vector<std::string>& input) override;
+    llong p1(const std::vector<std::string>& input) override;
+    llong p2(const std::vector<std::string>& input) override;
 };

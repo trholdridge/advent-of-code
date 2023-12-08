@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <iterator>
 
-int Day6::p1(const std::vector<std::string>& input)
+llong Day6::p1(const std::vector<std::string>& input)
 {
     std::vector<int> times = splitInts(input[0].substr(5), ' ');
     std::vector<int> distances = splitInts(input[1].substr(9), ' ');
@@ -14,7 +14,7 @@ int Day6::p1(const std::vector<std::string>& input)
     return product;
 }
 
-int Day6::p2(const std::vector<std::string>& input)
+llong Day6::p2(const std::vector<std::string>& input)
 {
     std::string timeStr;
     std::string distanceStr;

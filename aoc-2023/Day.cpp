@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <sstream>
 
-bool Day::digit(char c)
+bool Day::digit(const char c)
 {
     return c >= '0' && c <= '9';
 }

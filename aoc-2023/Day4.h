@@ -1,4 +1,5 @@
 #pragma once
+#include "Day.h"
 
 #include <set>
 #include <string>
@@ -7,12 +8,12 @@
 
 typedef std::tuple<int, std::set<int>, std::set<int>> Card;
 
-class Day4
+class Day4 :
+    public Day
 {
 private:
      std::vector<Card> process(std::vector<std::string> input);
 public:
-    int p1(std::vector<std::string> input);
-    int p2(std::vector<std::string> input);
+    llong p1(const std::vector<std::string>& input) override;
+    llong p2(const std::vector<std::string>& input) override;
 };
-

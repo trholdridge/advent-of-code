@@ -7,7 +7,7 @@ class Day6 :
 private:
     llong waysToBeat(llong time, llong distance);
 public:
-    int p1(const std::vector<std::string>& input) override;
-    int p2(const std::vector<std::string>& input) override;
+    llong p1(const std::vector<std::string>& input) override;
+    llong p2(const std::vector<std::string>& input) override;
 };
 

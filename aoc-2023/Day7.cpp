@@ -5,7 +5,7 @@
 
 const std::map<char, int> Day7::cardMap = { {'T', 10}, {'J', 1}, {'Q', 12}, {'K', 13}, {'A', 14} };
 
-int Day7::p1(const std::vector<std::string>& input)
+llong Day7::p1(const std::vector<std::string>& input)
 {
     std::vector<Hand> hands;
     for (std::string s : input)
@@ -25,7 +25,7 @@ int Day7::p1(const std::vector<std::string>& input)
     return sum;
 }
 
-int Day7::p2(const std::vector<std::string>& input)
+llong Day7::p2(const std::vector<std::string>& input)
 {
     std::vector<Hand> hands;
     for (std::string s : input)

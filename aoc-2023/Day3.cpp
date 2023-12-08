@@ -4,9 +4,9 @@
 #include <iostream>
 #include <tuple>
 
-int Day3::p1(std::vector<std::string> in)
+llong Day3::p1(const std::vector<std::string>& input)
 {
-    this->input = in;
+    this->input = input;
     int sum = 0;
     for (int row = 0; row < this->input.size(); row++)
     {
@@ -32,9 +32,9 @@ int Day3::p1(std::vector<std::string> in)
     return sum;
 }
 
-int Day3::p2(std::vector<std::string> in)
+llong Day3::p2(const std::vector<std::string>& input)
 {
-    this->input = in;
+    this->input = input;
     std::map<std::tuple<int, int>, std::vector<int>> gearMap;
     for (int row = 0; row < this->input.size(); row++)
     {

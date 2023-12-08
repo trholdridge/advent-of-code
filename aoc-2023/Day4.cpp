@@ -6,21 +6,21 @@
 #include <numeric>
 #include <sstream>
 
-int Day4::p1(std::vector<std::string> input)
+llong Day4::p1(const std::vector<std::string>& input)
 {
-    int sum = 0;
+    llong sum = 0;
     std::vector<Card> cards = process(input);
     for (Card c : cards)
     {
         std::vector<int> matches;
         std::set_intersection(std::get<1>(c).begin(), std::get<1>(c).end(),
             std::get<2>(c).begin(), std::get<2>(c).end(), std::back_inserter(matches));
-        sum += std::pow(2, static_cast<int>(matches.size() - 1));
+        sum += static_cast<llong>(std::pow(2, static_cast<llong>(matches.size() - 1)));
     }
     return sum;
 }
 
-int Day4::p2(std::vector<std::string> input)
+llong Day4::p2(const std::vector<std::string>& input)
 {
     std::map<int, int> copies;
     std::vector<Card> cards = process(input);
@@ -56,9 +56,9 @@ std::vector<Card> Day4::process(std::vector<std::string> input)
     std::vector<Card> cards;
     for (std::string line : input)
     {
-        int colon_idx = line.find(":");
+        size_t colon_idx = line.find(":");
         int id = std::stoi(line.substr(4, colon_idx - 4));
-        int bar_idx = line.find("|");
+        size_t bar_idx = line.find("|");
         std::istringstream nums1(line.substr(colon_idx + 2, bar_idx - 1 - (colon_idx + 2)));
         std::istringstream nums2(line.substr(bar_idx + 2));
         std::vector<std::string> tokens1{ std::istream_iterator<std::string>{nums1},
