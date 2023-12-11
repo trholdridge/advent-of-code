@@ -135,6 +135,7 @@
     <Text Include="input6.txt" />
     <Text Include="input7.txt" />
     <Text Include="input8.txt" />
+    <Text Include="input9.txt" />
     <Text Include="test.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="Day6.h" />
     <ClInclude Include="Day7.h" />
     <ClInclude Include="Day8.h" />
+    <ClInclude Include="Day9.h" />
     <ClInclude Include="Main.h" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +159,7 @@
     <ClCompile Include="Day6.cpp" />
     <ClCompile Include="Day7.cpp" />
     <ClCompile Include="Day8.cpp" />
+    <ClCompile Include="Day9.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
