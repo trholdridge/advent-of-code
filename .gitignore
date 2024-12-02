@@ -3,3 +3,6 @@
 .DS_Store
 .vs
 x64
+
+input*.txt
+test.txt

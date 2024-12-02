@@ -5,19 +5,19 @@
 #include <string>
 #include <vector>
 
-#include "Day1.h"
+#include "Day9.h"
 
 int main()
 {
     std::vector<std::string> lines = {};
-    std::ifstream infile("input1.txt");
+    std::ifstream infile("input9.txt");
 
     for (std::string line; std::getline(infile, line); )
     {
         lines.push_back(line);
     }
 
-    Day1 d = Day1();
+    Day9 d = Day9();
     std::cout << d.p2(lines) << "\n";
     return 0;
 }
